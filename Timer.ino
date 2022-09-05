@@ -14,7 +14,7 @@ static int mapping[10][7] = {
   {LOW, LOW, LOW, LOW, LOW, LOW, HIGH}, // 0
   {HIGH, LOW, LOW, HIGH, HIGH, HIGH, HIGH}, // 1
   {LOW, LOW, HIGH, LOW, LOW, HIGH, LOW}, // 2
-  {LOW, LOW, LOW, LOW, HIGH, HIGH, HIGH}, // 3
+  {LOW, LOW, LOW, LOW, HIGH, HIGH, LOW}, // 3
   {HIGH, LOW, LOW, HIGH, HIGH, LOW, LOW}, // 4
   {LOW, HIGH, LOW, LOW, HIGH, LOW, LOW}, // 5
   {LOW, HIGH, LOW, LOW, LOW, LOW, LOW}, // 6
@@ -24,6 +24,28 @@ static int mapping[10][7] = {
 };
 
 void writeDigit(int number, int idx) {
+  if (idx == 0) {
+    digitalWrite(D1, HIGH);
+    digitalWrite(D2, LOW);
+    digitalWrite(D3, LOW);
+    digitalWrite(D4, LOW);
+  } else if (idx == 1) {
+    digitalWrite(D1, LOW);
+    digitalWrite(D2, HIGH);
+    digitalWrite(D3, LOW);
+    digitalWrite(D4, LOW);
+  } else if (idx == 2) {
+    digitalWrite(D1, LOW);
+    digitalWrite(D2, LOW);
+    digitalWrite(D3, HIGH);
+    digitalWrite(D4, LOW);
+  } else if (idx == 3) {
+    digitalWrite(D1, LOW);
+    digitalWrite(D2, LOW);
+    digitalWrite(D3, LOW);
+    digitalWrite(D4, HIGH);
+  }
+
   int* segs = mapping[number];
   digitalWrite(pinA, segs[0]);
   digitalWrite(pinB, segs[1]);   
@@ -32,27 +54,15 @@ void writeDigit(int number, int idx) {
   digitalWrite(pinE, segs[4]);
   digitalWrite(pinF, segs[5]);
   digitalWrite(pinG, segs[6]);
+}
 
-  if (idx == 0) {
-    digitalWrite(D1, HIGH);
-    digitalWrite(D2, LOW);
-    digitalWrite(D3, LOW);
-    digitalWrite(D4, LOW);
-  } else if (idx == 1) {
-    digitalWrite(D2, HIGH);
-    digitalWrite(D1, LOW);
-    digitalWrite(D3, LOW);
-    digitalWrite(D4, LOW);
-  } else if (idx == 2) {
-    digitalWrite(D3, HIGH);
-    digitalWrite(D1, LOW);
-    digitalWrite(D2, LOW);
-    digitalWrite(D4, LOW);
-  } else if (idx == 3) {
-    digitalWrite(D4, HIGH);
-    digitalWrite(D1, LOW);
-    digitalWrite(D2, LOW);
-    digitalWrite(D3, LOW);
+void writeNumber(int number) {
+  if (number < 1000 && number >= 100) {
+    // 1 trailing '0'
+  } else if (number < 100 && number >= 10) {
+    // 2 trailing '0'
+  } else {
+    // 3 trailing '0'
   }
 }
 
@@ -77,10 +87,14 @@ void setup() {
 int digit = 0;
 // the loop routine runs over and over again forever:
 void loop() {
-  writeDigit(digit, 0);
-  writeDigit(digit, 1);
-  writeDigit(digit, 2);
-  writeDigit(digit, 3);
-  digit = digit + 1 % 9;
+  writeDigit(0, 0);
+  delay(50);
+  writeDigit(1, 1);
+  delay(50);
+  writeDigit(2, 2);
+  delay(50);
+  writeDigit(3, 3);
+  delay(2000);
+ // digit = (digit + 1) % 9;
   delay(2000);
 }
